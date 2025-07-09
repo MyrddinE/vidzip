@@ -1,0 +1,50 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build_release:
+    name: Build Release ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu, windows]
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
+
+      - name: Run Linux Build
+        if: matrix.os == 'ubuntu'
+        run: |
+          mkdir -p bin
+          chmod 755 bin
+          docker run -d --name alpine -v $(pwd):/workspace -w /workspace crystallang/crystal:latest-alpine tail -f /dev/null
+          docker exec alpine shards install --without-development --release --static
+          docker exec alpine shards build --release --static
+          docker exec alpine chmod +x bin/vidzip
+          docker exec alpine gzip bin/vidzip
+          docker exec alpine mv bin/vidzip.gz bin/vidzip-linux.gz
+
+      - name: Run Windows Build x64
+        if: matrix.os == 'windows'
+        run: |
+          shards install --without-development --release
+          shards build --release --static
+          Set-ExecutionPolicy RemoteSigned -Scope Process
+          Compress-Archive -Path bin/vidzip.exe -DestinationPath bin/vidzip-windows.zip
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            bin/cowsay-linux.gz
+            bin/cowsay-windows.zip
+            LICENSE.txt
