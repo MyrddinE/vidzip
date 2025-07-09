@@ -3,7 +3,7 @@ require "./vidzip/finder"
 require "./vidzip/extractor"
 
 module Vidzip
-  VERSION = "0.1.0"
+  VERSION = "0.1.2"
 
   def self.run(args : Array(String), stdout : IO = STDOUT, stderr : IO = STDERR)
     path : String? = nil
@@ -66,6 +66,4 @@ module Vidzip
   end
 end
 
-if __FILE__ == PROGRAM_NAME
-  exit Vidzip.run(ARGV)
-end
+Vidzip.run(ARGV)
