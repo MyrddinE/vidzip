@@ -4,7 +4,7 @@ This file searches a video for the signature of an embedded / appended ZIP, and 
 
 ## Installation
 
-None. Add it to your path if you like, or put it in the same directory as your video files.
+None.
 
 ## Usage
 
