@@ -1,0 +1,13 @@
+name: vidzip
+version: 0.1.0
+
+authors:
+  - Myrddin Emrys <myrddin@gmail.com>
+
+targets:
+  vidzip:
+    main: src/vidzip.cr
+
+crystal: '>= 1.11.2'
+
+license: MIT
