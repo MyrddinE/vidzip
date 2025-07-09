@@ -8,7 +8,7 @@ None. Add it to your path if you like, or put it in the same directory as your v
 
 ## Usage
 
-    `vidzip [--extract] video.mp4`
+    vidzip [--extract] video.mp4
 
 If you leave out the extract option, it will simply inform you whether a possible zipfile was found.
 If the extract option is included, it will extract the zip from the video (if found).
