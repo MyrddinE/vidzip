@@ -44,8 +44,11 @@ jobs:
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
           files: |
             bin/cowsay-linux.gz
             bin/cowsay-windows.zip
             LICENSE.txt
+          tags:
+            
